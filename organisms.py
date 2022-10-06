@@ -16,17 +16,29 @@ class Organisms:
 
 
 class Components:
+    # The way the positions are stored in the genes will be as follows
+    # First the letters of the specific components, then the direction of where it's placed
+    # Then in that direction it will be placed like a cone
+
+    # Example: Cn1
+    # Translation: Consumer north position 1
+
+    # C in the genetics
     class Consumer:
         pass
 
+    # E in the genetics
     class Eye:
         pass
 
+    # D in the genetics
     class Damager:
         pass
 
+    # S in the genetics
     class Shield:
         pass
 
+    # M in the genetics
     class Mover:
         pass

@@ -11,3 +11,11 @@ How I envision the organisms working is there are different components that an e
 These components are able to change based on genetics
 
 The gene contains what components it uses and where the components are placed
+
+# Genes
+The way the positions are stored in the genes will be as follows
+First the letters of the specific components, then the direction of where it's placed
+Then in that direction it will be placed like a cone
+
+Example: Cn1
+Translation: Consumer north position 1
