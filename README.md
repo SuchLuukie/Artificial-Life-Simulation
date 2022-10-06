@@ -19,3 +19,4 @@ Then in that direction it will be placed like a cone
 
 Example: Cn1
 Translation: Consumer north position 1
+![Alt text](resources/gene_positioning.png/ "Gene positioning")
