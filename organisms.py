@@ -11,33 +11,22 @@ class Organisms:
             3: [0, -1]  # Left
         }
 
-    def place_organism(self, map, organism, coords):
-        map[coords] = organism()
-        return map
+    class BasicFlyer:
+        pass
 
 
-    class Empty(object):
-        def __init__(self) -> None:
-            self.colour = (24, 25, 26)
-            self.food_worth = 0
-            self.health = 0
+class Components:
+    class Consumer:
+        pass
 
-    
-    class Food(object):
-        def __init__(self) -> None:
-            self.colour = (91, 95, 217)
-            self.food_worth = 10
-            self.health = 0
+    class Eye:
+        pass
 
-    class Frog(object):
-        def __init__(self) -> None:
-            self.colour = (86, 214, 99)
-            self.food_worth = 5
-            self.health = 10
+    class Damager:
+        pass
 
-            # Movement variables
-            self.direction = 0
+    class Shield:
+        pass
 
-        def move(self):
-            pass
-            # Frog's signature move is hopping over things
+    class Mover:
+        pass

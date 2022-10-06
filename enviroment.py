@@ -22,12 +22,16 @@ class Enviroment:
         # Simulation settings
         self.organisms = Organisms()
         self.is_active = False
+        self.step = 0
+
+        # User interfacing variables
+        self.current_selection = None
 
         # The map will be a bit larger to count for the future scrolling across the screen (3 cell padding)
         # Calculate the map size
         map_width = ceil(self.screen_resolution[0] / self.cell_size) + 6
         map_height = ceil(self.screen_resolution[1] / self.cell_size) + 6
-        self.map = np.full((map_height, map_width), fill_value=self.organisms.Empty())
+        self.map = np.full((map_height, map_width), fill_value=None)
 
         # Graphics settings
         self.colour_dictionary = {
@@ -40,6 +44,11 @@ class Enviroment:
     def run_simulation(self):
         self.is_active = True
         self.display_init()
+
+
+    # Step in the simulation
+    def step_simulation(self):
+        pass
 
 
     # Initial configuation of the display
@@ -93,9 +102,9 @@ class Enviroment:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.user_placing(event.pos)
 
-
-    def draw_grid(self):
-        pass
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.step_simulation()
 
 
     def draw_cells(self):
@@ -111,7 +120,7 @@ class Enviroment:
                 # Offset it by 3 for the map padding
                 x -= 3
 
-                if type(cell) == self.organisms.Empty:
+                if cell == None:
                     continue
 
                 # The background is the outline colour
@@ -142,5 +151,5 @@ class Enviroment:
 
                 # Check if the event pos is inside the the bounding box of the rectangle
                 if x1 < pos[0] < x2 and y1 < pos[1] < y2:
-                    # Place food
-                    self.organisms.place_organism(self.map, self.organisms.Food, (oy, ox))
+                    # Place the current selection
+                    self.organisms.place_organism(self.map, self.current_selection, (oy, ox))
