@@ -12,7 +12,7 @@ class FPS_Counter:
 
         # FPS variables
         self.clock = pygame.time.Clock()
-        self.fps_history_range = 200
+        self.fps_history_range = 1000
         self.fps_history = []
         self.fps = 0
 

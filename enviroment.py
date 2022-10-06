@@ -7,31 +7,31 @@ import numpy as np
 
 # Import files
 from display_components.fps_counter import FPS_Counter
+from organisms import Organisms
 
 
 class Enviroment:
     def __init__(self) -> None:
         # Display settings
         self.cell_border_width = 0.5
-        self.cell_size = 20
+        self.cell_size = 15
 
         self.screen_resolution = (round(1920 * 0.7), round(1080 * 0.8))
         self.screen_name = "Artificial Life Simulation"
 
         # Simulation settings
+        self.organisms = Organisms()
         self.is_active = False
 
         # The map will be a bit larger to count for the future scrolling across the screen (3 cell padding)
         # Calculate the map size
         map_width = ceil(self.screen_resolution[0] / self.cell_size) + 6
         map_height = ceil(self.screen_resolution[1] / self.cell_size) + 6
-        self.map = np.zeros((map_height, map_width))
+        self.map = np.full((map_height, map_width), fill_value=self.organisms.Empty())
 
         # Graphics settings
         self.colour_dictionary = {
             'outline_colour': (58, 59, 60),
-            0: (24, 25, 26),
-            1: (91, 95, 217)
         }
 
 
@@ -84,6 +84,14 @@ class Enviroment:
             if event.type == pygame.QUIT:
                 self.is_active = False
 
+            if event.type == pygame.MOUSEMOTION:
+                # If left click is pressed
+                if event.buttons[0] == 1:
+                    self.user_placing(event.pos)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.user_placing(event.pos)
+
 
     def draw_grid(self):
         # Turn the map into a iterable list
@@ -100,11 +108,31 @@ class Enviroment:
 
                 # The background is the outline colour
                 # We draw a rectangle to display if the cell is empty with the background colour or any other type of cell
-                colour = self.colour_dictionary[cell]
-                rect = (
+                colour = cell.colour
+                rect_cords = (
                     x * self.cell_size + self.cell_border_width,
                     y * self.cell_size + self.cell_border_width,
                     self.cell_size - self.cell_border_width * 2,
                     self.cell_size - self.cell_border_width * 2
                 )
-                pygame.draw.rect(self.screen, color=colour, rect=rect)
+                pygame.draw.rect(self.screen, color=colour, rect=rect_cords)
+    
+
+    def user_placing(self, pos):
+        for oy, row in enumerate(self.map.tolist()):
+            # oy = original y
+            y = oy - 3
+            for ox, cell in enumerate(row):
+                # ox = original x
+                x = ox - 3
+
+                # Calculate the bounding box of the rectangles
+                x1 = x * self.cell_size + self.cell_border_width
+                y1 = y * self.cell_size + self.cell_border_width
+                x2 = x1 + (self.cell_size - self.cell_border_width * 2)
+                y2 = y1 + (self.cell_size - self.cell_border_width * 2)
+
+                # Check if the event pos is inside the the bounding box of the rectangle
+                if x1 < pos[0] < x2 and y1 < pos[1] < y2:
+                    # Place food
+                    self.organisms.place_organism(self.map, self.organisms.Food, (oy, ox))
