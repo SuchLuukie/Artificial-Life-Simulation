@@ -31,7 +31,8 @@ class Enviroment:
 
         # Graphics settings
         self.colour_dictionary = {
-            'outline_colour': (58, 59, 60),
+            'outline': (58, 59, 60),
+            'background': (24, 25, 26)
         }
 
 
@@ -67,10 +68,10 @@ class Enviroment:
             self.events_checker()
 
             # Set the background colour with the cell outline colour
-            self.screen.fill(self.colour_dictionary['outline_colour'])
+            self.screen.fill(self.colour_dictionary['background'])
 
             # Draw the grid
-            self.draw_grid()
+            self.draw_cells()
 
             # Update the fps
             self.fps_counter.update_fps()
@@ -94,6 +95,10 @@ class Enviroment:
 
 
     def draw_grid(self):
+        pass
+
+
+    def draw_cells(self):
         # Turn the map into a iterable list
         map = self.map.tolist()
 
@@ -105,6 +110,9 @@ class Enviroment:
             for x, cell in enumerate(row):
                 # Offset it by 3 for the map padding
                 x -= 3
+
+                if type(cell) == self.organisms.Empty:
+                    continue
 
                 # The background is the outline colour
                 # We draw a rectangle to display if the cell is empty with the background colour or any other type of cell
