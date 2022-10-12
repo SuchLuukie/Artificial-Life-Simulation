@@ -1,13 +1,12 @@
 # Import libraries
 import pygame
-import pygame.camera
 from pygame.locals import *
 from math import ceil
 import numpy as np
 
 # Import files
 from display_components.fps_counter import FPS_Counter
-from organisms import Organisms
+from organisms import TestOrganism
 
 
 class Enviroment:
@@ -20,12 +19,11 @@ class Enviroment:
         self.screen_name = "Artificial Life Simulation"
 
         # Simulation settings
-        self.organisms = Organisms()
         self.is_active = False
         self.step = 0
 
         # User interfacing variables
-        self.current_selection = None
+        self.current_selection = TestOrganism
 
         # The map will be a bit larger to count for the future scrolling across the screen (3 cell padding)
         # Calculate the map size
@@ -152,4 +150,4 @@ class Enviroment:
                 # Check if the event pos is inside the the bounding box of the rectangle
                 if x1 < pos[0] < x2 and y1 < pos[1] < y2:
                     # Place the current selection
-                    self.organisms.place_organism(self.map, self.current_selection, (oy, ox))
+                    self.map[oy, ox] = self.current_selection()
